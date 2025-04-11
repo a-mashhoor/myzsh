@@ -1,5 +1,7 @@
 # ~/.zshrc file for zsh interactive shells.
 # see /usr/share/doc/zsh/examples/zshrc for examples
+# author : Arshia Mashhoor
+# GitHub : https://github.com/a-mashhoor/myzsh
 
 # ===== Load ZSH Plugins FIRST =====
 # Load async plugin if exists
