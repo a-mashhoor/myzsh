@@ -20,7 +20,7 @@ alias s-update="sudo apt update  && sudo apt full-upgrade -y && apt autoremove &
 alias lock-sleep='loginctl lock-session && systemctl suspend -i'
 alias lock='loginctl lock-session'
 
-alias now="jdate  +'%D %B %T %A' "
+alias now='jdate +"%D %B %T %A" | awk '\''{ split($1, d, "/"); day = d[3] - 1; $1 = d[1] "/" d[2] "/" day; print }'\'
 
 alias proc='ps --no-headers -aeo pid,lstart,etime,command | more'
 alias q='bye'
@@ -52,6 +52,8 @@ alias servs='service --status-all | grep +'
 alias start_sys='sudo systemctl start '
 alias status_sys='systemctl status '
 alias stop_sys='sudo systemctl stop '
+
+alias logcron='journalctl -u cron -n 50 --no-pager'
 
 # ==================Networking, Seucrity & PenTest=================
 

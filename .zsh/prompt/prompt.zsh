@@ -50,25 +50,25 @@ function ram_usage() {
 
   # Color coding based on usage percentage
   if (( percent > 90 )); then
-    echo "%F{red}${percent}%%%f(%F{cyan}free:${available_mb}M%f)"
+    echo "%F{red}Mem:${percent}%%%f(%F{cyan}free:${available_mb}M%f)"
   elif (( percent > 75 )); then
-    echo "%F{yellow}${percent}%%%f(%F{cyan}free:${available_mb}M%f)"
+    echo "%F{yellow}Mem:${percent}%%%f(%F{cyan}free:${available_mb}M%f)"
   else
-    echo "%F{green}${percent}%%%f(%F{cyan}free:${available_mb}M%f)"
+    echo "%F{green}Mem:${percent}%%%f(%F{cyan}free:${available_mb}M%f)"
   fi
 }
 
 function cpu_temp() {
   if command -v sensors &> /dev/null; then
-    local temp=$(sensors | awk '/Package id 0:/ {print $4; exit}')
+    local temp=$(sensors -c /etc/sensors3.conf | awk '/Package id 0:/ {print $4; exit}')
     temp=${temp//[^0-9.]/}
 
     if (( ${temp%.*} > 85 )); then
-      echo "%F{red}CPU:${temp}°C%f"
+      echo "%F{red}C/T:${temp}°C%f"
     elif (( ${temp%.*} > 70 )); then
-      echo "%F{yellow}CPU:${temp}°C%f"
+      echo "%F{yellow}C/T:${temp}°C%f"
     else
-      echo "%F{green}CPU:${temp}°C%f"
+      echo "%F{green}C/T:${temp}°C%f"
     fi
   fi
 }
@@ -440,7 +440,7 @@ function configure_prompt() {
 
   case "$PROMPT_ALTERNATIVE" in
     twoline)
-      PROMPT=$'%F{%(#.blue.green)}┌──${debian_chroot:+($debian_chroot)─}(C/T:$(cpu_temp) $(ram_usage))─$(date_display)${VIRTUAL_ENV:+($(basename $VIRTUAL_ENV))}$(git_prompt_info)\n│──(%B%F{%(#.red.blue)}%n'$prompt_symbol$'%m%b%F{%(#.blue.green)})-[%B%F{reset}%(6~.%-1~/…/%4~.%5~)%b%F{%(#.blue.green)}]\n└───\>%B%(#.%F{red}#.%F{blue}$)%b%F{reset} '
+      PROMPT=$'%F{%(#.blue.green)}┌──${debian_chroot:+($debian_chroot)─}($(cpu_temp) $(ram_usage))─$(date_display)${VIRTUAL_ENV:+($(basename $VIRTUAL_ENV))}$(git_prompt_info)\n│──(%B%F{%(#.red.blue)}%n'$prompt_symbol$'%m%b%F{%(#.blue.green)})-[%B%F{reset}%(6~.%-1~/…/%4~.%5~)%b%F{%(#.blue.green)}]\n└───\>%B%(#.%F{red}#.%F{blue}$)%b%F{reset} '
 
       # Right prompt configuration
       success_indicator=' %F{green}%B🙂%b%F{reset}'
