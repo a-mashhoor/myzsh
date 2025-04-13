@@ -1,4 +1,6 @@
 
+# Load virtualization check: we are using this to avoid isuses with seonsors on vms
+source "${0:h}/vm_check.zsh"
 #================ Prompt Components ====================
 
 # set variable identifying the chroot you work in (used in the prompt below)
@@ -59,6 +61,9 @@ function ram_usage() {
 }
 
 function cpu_temp() {
+  # Only show temperature if not in a VM
+  [[ "$IS_VIRTUALIZED" == "true" ]] && return
+
   if command -v sensors &> /dev/null; then
     local temp=$(sensors -c /etc/sensors3.conf | awk '/Package id 0:/ {print $4; exit}')
     temp=${temp//[^0-9.]/}
