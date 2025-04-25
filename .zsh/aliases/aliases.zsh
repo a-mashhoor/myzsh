@@ -13,8 +13,8 @@ alias c='clear'
 alias current_dir='echo ${PWD##*/}'
 alias fstab="sudo -E vim /etc/fstab"
 
-alias inst="apt install -y"
-alias s-update="sudo apt update  && sudo apt full-upgrade -y && apt autoremove && apt autoclean && apt-get clean"
+alias inst="sudo apt install -y "
+alias s-update="sudo apt update  && sudo apt full-upgrade -y && sudo apt autoremove -y && sudo apt autoclean && sudo apt-get clean"
 
 # login manager aliases it may differ based on the DE
 alias lock-sleep='loginctl lock-session && systemctl suspend -i'
@@ -25,9 +25,16 @@ alias now='jdate +"%D %B %T %A" | awk '\''{ split($1, d, "/"); day = d[3] - 1; $
 alias proc='ps --no-headers -aeo pid,lstart,etime,command | more'
 alias q='bye'
 alias rem='nocorrect rm -rfvi'
+
 # sudo with an space makes possible to run alias commands as sudo
 alias sudo='sudo '
 alias sudo_E='sudo -E '
+
+alias display-server="loginctl show-session $(loginctl | grep $(whoami) | awk 'NR==1 {print $1}') -p Type"
+
+# set firefox to the background
+
+#alias firefox='set +m; {firejail firefox  & } &>/dev/null'
 
 #alias most_used_commands="history 0 | awk '{a[$2]++}END{for(i in a){print a[i] " " i}}' | sort -rn | head -50 "
 

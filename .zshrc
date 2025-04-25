@@ -60,7 +60,66 @@ WORDCHARS=${WORDCHARS//\/} # Don't consider certain characters part of the word
 PROMPT_EOL_MARK=""
 
 # configure key keybindings
-bindkey -e                                        # emacs key bindings
+
+# Enable better word selection
+autoload -Uz select-word-style
+select-word-style bash
+
+# Visual selection tracking
+function zle-keymap-select {
+  if [[ $KEYMAP == vicmd ]] || [[ $WIDGET == *select* ]]; then
+    echo -ne '\e[2 q'  # block cursor
+  else
+    echo -ne '\e[4 q'  # underline cursor
+  fi
+}
+zle -N zle-keymap-select
+
+# Selection functions
+start-selection() {
+  zle set-mark-command
+  zle -K vicmd
+}
+
+end-selection() {
+  zle -K main
+}
+
+copy-selection() {
+  local save_reg=$REGION_ACTIVE
+  REGION_ACTIVE=1
+  zle copy-region-as-kill
+  print -rn -- $CUTBUFFER | xclip -selection clipboard -in 2>/dev/null
+  REGION_ACTIVE=$save_reg
+  zle end-selection
+  zle reset-prompt
+}
+zle -N copy-selection
+zle -N start-selection
+zle -N end-selection
+
+# Bind keys (ADAPT THESE TO YOUR QTERMINAL'S ACTUAL SEQUENCES)
+bindkey -e  # use emacs keymap as base
+
+# Shift+Arrow - character selection
+bindkey -M emacs '^[[1;2A' start-selection      # Shift+Up
+bindkey -M emacs '^[[1;2B' start-selection      # Shift+Down
+bindkey -M emacs '^[[1;2C' start-selection      # Shift+Right
+bindkey -M emacs '^[[1;2D' start-selection      # Shift+Left
+
+# Ctrl+Shift+Arrow - word selection
+bindkey -M emacs '^[[1;6A' vi-backward-blank-word
+bindkey -M emacs '^[[1;6B' vi-forward-blank-word
+bindkey -M emacs '^[[1;6C' vi-forward-blank-word
+bindkey -M emacs '^[[1;6D' vi-backward-blank-word
+
+# Ctrl+Shift+C to copy
+bindkey -M emacs '^[[1;6C' copy-selection  # Verify actual sequence!
+
+# Exit selection mode on normal keys
+bindkey -M vicmd ' ' end-selection
+
+bindkey -e
 bindkey ' ' magic-space                           # do history expansion on space
 bindkey '^U' backward-kill-line                   # ctrl + U
 bindkey '^[[3;5~' kill-word                       # ctrl + Supr
