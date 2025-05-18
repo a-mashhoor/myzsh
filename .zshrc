@@ -4,6 +4,8 @@
 # ===== Load ZSH Plugins FIRST =====
 # Load async plugin if exists
 
+
+
 if [[ ! -f ~/.zsh/plugins/async/async.zsh ]]; then
   curl -s -# -o ~/.zsh/plugins/async/async.zsh  https://raw.githubusercontent.com/mafredri/zsh-async/master/async.zsh
   source ~/.zsh/plugins/async/async.zsh
@@ -132,9 +134,11 @@ bindkey '^[[H' beginning-of-line                  # home
 bindkey '^[[F' end-of-line                        # end
 bindkey '^[[Z' undo                               # shift + tab undo last action
 
+
 # enable completion features
 
 autoload -Uz compinit
+
 
 () {  # Anonymous function for local scope
 local zcd=${ZDOTDIR:-$HOME}/.zcompdump
@@ -148,6 +152,11 @@ local zcdc="$zcd.zwc"
       compinit -C -d "$zcd"
   fi
 }
+# Add to fpath BEFORE compinit
+fpath=( ~/.zsh/functions $fpath )
+
+autoload -Uz _gf  # Loads the '_gf' function from '_gfau' file
+compdef _gf gf     # Map it to 'gf' command
 
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path ~/.cache/zsh/zcompcache
@@ -222,5 +231,5 @@ export shell_src=$HOME/Documents/programming/source_codes/8-shell-scripting
 export go_src=$HOME/Documents/programming/source_codes/9-Golang
 export bug_bunt_targets=$HOME/Documents/penetration_testing/bug_bounty-hunting/targets/web_applications
 export pen_test=$HOME/Documents/penetration_testing
-
+export payloads=$HOME/Documents/penetration_testing/payloads
 

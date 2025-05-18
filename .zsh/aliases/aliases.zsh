@@ -47,6 +47,14 @@ alias l='ls --color=auto -CF'
 alias vdir='vdir --color=auto'
 alias v='vim'
 
+# Widget to immediately open Vim
+function open_vim {
+	BUFFER="v" # Uses the alias 'v' (or use "vim" directly)
+	zle accept-line
+}
+zle -N open_vim
+bindkey '^V' open_vim # Bind to Ctrl+V
+
 # SystemD services & Service Managment
 
 alias disable_sys='sudo systemctl disable '

@@ -1,0 +1,13 @@
+#function _gf {
+#    local -a patterns
+#    patterns=($(gf -list 2>/dev/null))
+#    _values "gf patterns" "${patterns[@]}"
+#}
+
+#compdef _gf gf
+
+function _gf {
+    local -a args
+    args=($(gf -list 2>/dev/null))
+    _arguments "1: :{_values 'patterns' $args}"
+}

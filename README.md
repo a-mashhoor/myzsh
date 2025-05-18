@@ -105,7 +105,18 @@ alias nssl="nmap -p 443 --script=ssl-enum-ciphers"
   - Frequency counting
 
 ---
+## auto installation with script
+### Locally installation
 
+```bash
+curl -fsSL https://raw.githubusercontent.com/a-mashhoor/myzsh/refs/heads/main/.zshrc | sudo bash -s -- -u
+```
+### Globally installation
+```bash
+curl -fsSL https://raw.githubusercontent.com/a-mashhoor/myzsh/refs/heads/main/.zshrc | sudo bash -s -- -g
+
+```
+---
 ## 🔧 Pre-Install Requirements
 
 For **full functionality** (especially pentesting features), install these tools first:
