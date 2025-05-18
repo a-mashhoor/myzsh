@@ -109,11 +109,11 @@ alias nssl="nmap -p 443 --script=ssl-enum-ciphers"
 ### Locally installation
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/a-mashhoor/myzsh/refs/heads/main/.zshrc | sudo bash -s -- -u
+curl -fsSL https://raw.githubusercontent.com/a-mashhoor/myzsh/refs/heads/main/init.sh | sudo bash -s -- -u
 ```
 ### Globally installation
 ```bash
-curl -fsSL https://raw.githubusercontent.com/a-mashhoor/myzsh/refs/heads/main/.zshrc | sudo bash -s -- -g
+curl -fsSL https://raw.githubusercontent.com/a-mashhoor/myzsh/refs/heads/main/init.sh | sudo bash -s -- -g
 
 ```
 ---
